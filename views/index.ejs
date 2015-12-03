@@ -1,4 +1,5 @@
 <% include header.ejs %>
+
 				<div class="jumbotron text-center">
 					<h1>UniSafe</h1> 
 					<p>Les licornes qui veillent sur vous jour et nuit</p> 
@@ -46,8 +47,7 @@
 			
 			<script>
 			
-			var myCenter = new google.maps.LatLng(41.878114, -87.629798);
-			var myShit = new google.maps.LatLng(42.0, -88.0);
+			var myCenter = new google.maps.LatLng(<%= lat%>, <%= longi%>);
 
 			function initialize() {
 				var mapProp = {
