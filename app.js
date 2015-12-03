@@ -13,5 +13,20 @@ app.get('/', function(req, res) {
 
 });
 
+app.get('/connexion', function(req, res) {
+
+
+	res.render('connexion.ejs');
+
+
+});
+
+app.get('/inscription', function(req, res) {
+
+
+	res.render('inscription.ejs');
+
+
+});
 
 app.listen(8080);
