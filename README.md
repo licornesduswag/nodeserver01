@@ -10,4 +10,4 @@ Commande :
 
 Accéder à la page d’index :
 
-    localhost:8080/index
+    localhost:8080
