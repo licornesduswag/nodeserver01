@@ -27,7 +27,8 @@ var rayon = 2000;
 var liste = [
 	{lat:41.878114, longi:-87.629798, radius :15000, type: "radioactif", nom:"test"},
 	{lat:40.878114, longi:-87.629798, radius :15000, type: "radioactif", nom:"unautre"},
-	{lat:40.878114, longi:-84.629798, radius :35000, type: "ebola", nom:"lol"},
+	{lat:40.878114, longi:-84.629798, radius :10000, type: "ebola", nom:"lol"},
+	{lat:40.878114, longi:-84.629708, radius :15000, type: "test", nom:"lol"},
 ];
 
 var awsobj = {
@@ -176,6 +177,12 @@ app.get('/test_aws', function(req, res) {
 		res.send(body);
 	});
 });
+
+app.get('/stats', function(req, res) {
+	res.render('stats.ejs');
+});
+
+/* Le reste */
 
 app.use(express.static('assets'));
 
