@@ -23,9 +23,9 @@ var longi = -87.629798;
 var rayon = 2000;
 
 var liste = [
-	{lat:41.878114, longi:-87.629798, radius :2000},
-	{lat:40.878114, longi:-87.629798, radius :2000},
-	{lat:40.878114, longi:-84.629798, radius :2000},
+	{lat:41.878114, longi:-87.629798, radius :15000, type: "radioactif"},
+	{lat:40.878114, longi:-87.629798, radius :15000, type: "radioactif"},
+	{lat:40.878114, longi:-84.629798, radius :35000, type: "ebola"},
 ];
 
 var sess;
@@ -67,7 +67,7 @@ app.post('/ajout_zone', function(req, res) {
 /* Inscription */
 
 app.get('/inscription', function(req, res) {
-	res.render('inscription.ejs', { erreur : '' });
+	res.render('inscription.ejs', { erreur : ' ' });
 });
 
 app.post('/do_inscription', function(req, res) {
