@@ -34,7 +34,7 @@ var sess;
 
 app.get('/', function(req, res) {
 	sess = req.session;
-	if (isConnected)
+	if (isConnected(sess))
 		res.render('index.ejs', { login : sess.login });
 	else
 		res.render('index.ejs');
@@ -44,24 +44,22 @@ app.get('/', function(req, res) {
 
 app.get('/zone', function(req, res) {
 	sess = req.session;
-	if (isConnected)
+	if (isConnected(sess))
 		res.render('zone.ejs', { login : sess.login, liste : liste });
 	else
 		res.render('zone.ejs', { liste: liste });
 });
 
 app.get('/ajout_zone', function(req, res) {
-	if (isConnected)
+	sess = req.session;
+	if (isConnected(sess))
 		res.render('ajout_zone.ejs', { login : sess.login });
 	else
-		res.render('ajout_zone.ejs');
+		res.redirect('/');
 });
 
 app.post('/ajout_zone', function(req, res) {
-	if (isConnected)
-		res.render('ajout_zone.ejs', { login : sess.login });
-	else
-		res.redirect('/ajout_zone');
+	res.render('ajout_zone.ejs');
 });
 
 /* Inscription */
@@ -128,6 +126,19 @@ app.post('/do_connexion', function(req, res) {
 	});
 });
 
+app.get('/deconnexion',function(req,res){
+	sess = req.session;
+	sess.login = null;
+	sess.destroy(function(err) {
+		if(err) {
+			console.log(err);
+		}
+		else {
+			res.redirect('/');
+		}
+	});
+});
+
 app.use(express.static('assets'));
 
 app.use(function(req, res, next){
@@ -135,7 +146,9 @@ app.use(function(req, res, next){
     res.send(404, 'Page introuvable.');
 });
 
-function isConnected() {
+// sess correspond a l'objet session recupere avec req.session
+
+function isConnected(sess) {
 	if (sess.login)
 		return true;
 	else
