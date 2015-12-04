@@ -1,0 +1,11 @@
+<% include header.ejs %>
+		<div class="jumbotron text-center">
+			<h1>Chat vidéo</h1> 
+			<ul>
+				<% for (i = 1; i <= 10; i++) { %> 
+				<li><a href="/video/<%= i%>">Salon n°<%= i%></a></li>
+				<% } %>
+			</ul>
+		</div>
+	</div>
+<% include footer.ejs %>

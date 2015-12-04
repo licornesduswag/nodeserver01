@@ -1,0 +1,18 @@
+<% include header.ejs %>
+		<script src="webrtc.js"></script>
+		<div class="jumbotron text-center">
+			<h1>Chat vidéo</h1>
+			<h2>Salon n°<%= salon %></h2>
+			<div class="vid">
+				<video class="left" id="localVideo" autoplay muted style="width:40%;"></video>
+				<video class="right"id="remoteVideo" autoplay style="width:40%;"></video>
+			</div>
+			<br />
+
+			<input type="button" id="start" onclick="start(true)" value="Démarrer"></input>
+			<script type="text/javascript">
+			    pageReady(10000);
+			</script>
+		</div>
+	</div>
+<% include footer.ejs %>

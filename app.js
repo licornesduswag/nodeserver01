@@ -126,6 +126,8 @@ app.post('/do_connexion', function(req, res) {
 	});
 });
 
+// Deconnexion
+
 app.get('/deconnexion',function(req,res){
 	sess = req.session;
 	sess.login = null;
@@ -137,6 +139,16 @@ app.get('/deconnexion',function(req,res){
 			res.redirect('/');
 		}
 	});
+});
+
+// Chat video
+
+app.get('/video', function(req, res) {
+	res.render('video.ejs');
+});
+
+app.get('/video/:salon', function(req, res) {
+	res.render('salonVideo.ejs', {salon : req.params.salon});
 });
 
 app.use(express.static('assets'));
