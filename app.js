@@ -11,12 +11,27 @@ app.use(bodyParser.urlencoded({
 
 app.use(session({secret: 'uniSafeSecret'}));
 
+/* BDD user */ 
 var userSchema = new mongoose.Schema({
 	login : String,
 	password : String
 });
 
 var userModel = mongoose.model('users', userSchema);
+
+/* BDD zone */ 
+
+var zoneSchema = new mongoose.Schema({
+	nom : String,
+	lat : Double,
+	lng : Double,
+	rayon : Double,
+	type : String
+});
+
+var zoneModel = mongoose.model('zones', zoneSchema);
+
+/* fin BDD */ 
 
 var lat = 41.878114;
 var longi = -87.629798;
@@ -40,12 +55,23 @@ app.get('/', function(req, res) {
 /* Zones */
 
 app.get('/zone', function(req, res) {
-	res.render('zone.ejs', {liste: liste});
+	renderZone(res, null);
 });
+
+function renderZone(res, center) {
+
+	if(center == null)
+		res.render('zone.ejs', {liste: liste});
+	else
+		res.render('zone.ejs', {liste: liste, centerLat : center.centerLat, centerLng : center.centerLng});
+		
+}
 
 app.get('/ajout_zone', function(req, res) {
 	res.render('ajout_zone.ejs');
 });
+
+
 
 app.post('/ajout_zone', function(req, res) {
 	res.redirect('/ajout_zone');
@@ -128,5 +154,36 @@ function isConnected() {
 	else
 		return false;
 }
+
+app.post('/ajout_zone', function(req, res) {
+	mongoose.connect('mongodb://localhost/unisafe', function(err) {
+		if (err) { throw err; }
+	});
+
+	var query = zoneModel.find(null);
+	query.where('nom', req.body.nom);
+	query.exec(function (err, comms) {
+		if (err) { throw err; }
+		if (comms.length > 0) {
+			mongoose.connection.close();
+			res.render('ajout_zone.ejs', { erreur : 'Erreur : Une zone avec ce nom existe déjà' });
+		}
+		else {
+			var nom = req.body.nom;
+			var lat = req.body.lat;
+			var lng = req.body.lng;
+			var rayon = req.body.rayon;
+			var type = req.body.type;
+			
+			var newZone = new zoneModel({ nom : nom, lat : lat, lng : lng, rayon : rayon, type : type });
+				newZone.save(function (err) {
+					if (err) { throw err; }
+					mongoose.connection.close();
+					renderZone(res, {centerLat : lat, centerLng : lng});
+				});
+		}
+	});
+});
+
 
 app.listen(8080);

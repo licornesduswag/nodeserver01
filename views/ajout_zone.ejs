@@ -11,9 +11,13 @@
 
 	Longitude :<br />
 	<input type="number" step="any" name="lng" /><br />
+	
+	
+	Rayon (m) :<br />
+	<input type="number" step="any" name="rayon" /><br />
 
 	Type de zone :<br />
-	<select name"type">
+	<select name="type">
 		<option value="radioactif">Radioactif</option>
 		<option value="ebola">Ebola</option>
 	</select>
@@ -23,5 +27,7 @@
 
 	<input type="submit" value="Ajouter la zone" />
 </form>
+
+					<%= erreur %> 
 
 <% include footer.ejs %>
