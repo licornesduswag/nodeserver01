@@ -46,6 +46,10 @@ app.get('/map', function(req, res) {
 
 /* Zones */
 
+app.get('/zone', function(req, res) {
+	res.render('zone.ejs', {liste: liste});
+});
+
 app.get('/ajout_zone', function(req, res) {
 	res.render('ajout_zone.ejs');
 });
@@ -92,7 +96,7 @@ app.post('/do_inscription', function(req, res) {
 /* Connexion */
 
 app.get('/connexion', function(req, res) {
-	res.render('connexion.ejs', { erreur : '' });
+	res.render('connexion.ejs', { erreur : ' ' });
 });
 
 app.post('/do_connexion', function(req, res) {
