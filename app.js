@@ -33,13 +33,16 @@ var sess;
 /* Autres */
 
 app.get('/', function(req, res) {
-	res.render('index.ejs');
+	sess = req.session;
+	if (isConnected)
+		res.render('index.ejs', { login : sess.login });
+	else
+		res.render('index.ejs');
 });
 
 app.get('/map', function(req, res) {
 	res.render('map.ejs', {liste: liste});
 });
-
 
 /* Zones */
 
