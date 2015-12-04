@@ -36,15 +36,11 @@ app.get('/', function(req, res) {
 	res.render('index.ejs');
 });
 
-app.get('/map', function(req, res) {
-	res.render('map.ejs', {liste: liste});
-});
-
 
 /* Zones */
 
 app.get('/zone', function(req, res) {
-	res.render('zone.ejs');
+	res.render('zone.ejs', {liste: liste});
 });
 
 app.get('/ajout_zone', function(req, res) {
