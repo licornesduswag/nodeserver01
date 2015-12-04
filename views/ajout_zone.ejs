@@ -1,31 +1,10 @@
 <% include header.ejs %>
 
-<h1>Ajouter une zone de danger <%= login %></h1>
+<h1>Ajouter une zone de danger</h1>
 
-<!--<form method="post">
-	Nom de zone :<br />
-	<input type="text" name="nom" /><br />
-
-	Latitude :<br />
-	<input type="number" step="any" name="lat" /><br />
-
-	Longitude :<br />
-	<input type="number" step="any" name="lng" /><br />
-
-	Type de zone :<br />
-	<select name"type">
-		<option value="radioactif">Radioactif</option>
-		<option value="ebola">Ebola</option>
-	</select>
-
-	<br />
-	<br />
-
-	<input type="submit" value="Ajouter la zone" />
-</form>-->
 
 <div  class="container">
-<form class="form-horizontal" role="form" method="post">
+<form class="form-horizontal" action="ajout_zone" role="form" method="post">
 					
 	<div class="form-group">
 		<label class="control-label">Nom de zone : </label>
@@ -44,16 +23,24 @@
 	</br>
 	
 	<div class="form-group">
-		<label  class="control-label "  >Longitude : </label>
+		<label  class="control-label"  >Longitude : </label>
 		<div> 
-			<input class=" form-control"type="number"  step="any" >
+			<input class="form-control" type="number"  step="any" name="lng">
+		</div>
+	</div>
+	</br>
+	
+	<div class="form-group">
+		<label  class="control-label "  >Rayon : </label>
+		<div> 
+			<input class="form-control" type="number"  step="any" name="rayon">
 		</div>
 	</div>
 	</br>
 	
 	<div class="form-group">
 		<label>Type de zone :</label>
-		<select class="form-control" >
+		<select class="form-control" name="type">
 			<option value="Radioactif">Radioactif</option>
 			<option value="Ebola">Ebola</option>
 		</select>
@@ -64,5 +51,7 @@
 	<button type="submit" class="btn btn-default">Ajouter la zone</button>
 </form>
 </div>
+
+					<%= erreur %> 
 
 <% include footer.ejs %>
