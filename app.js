@@ -83,14 +83,14 @@ function renderZone(res, center) {
 		{
 			res.render('zone.ejs', {liste: liste, centerLat : liste[0].lat, centerLng : liste[0].longi });
 		}
+		else
+		{
+			res.render('zone.ejs', {liste: liste, centerLat : center.centerLat, centerLng : center.centerLng});
+		}
 		
 		mongoose.connection.close();
 	});
 	
-		if(center != null)
-		{
-			res.render('zone.ejs', {liste: liste, centerLat : center.centerLat, centerLng : center.centerLng});
-		}
 
 	
 		
