@@ -21,7 +21,7 @@ var liste = [
 	];
 
 app.get('/', function(req, res) {
-	res.render('index.ejs', {lat:41.878114, longi:-87.629798, rayon :2000});
+	res.render('index.ejs', liste: liste);
 });
 
 app.get('/connexion', function(req, res) {
