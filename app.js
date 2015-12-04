@@ -69,7 +69,7 @@ app.get('/inscription', function(req, res) {
 });
 
 app.post('/do_inscription', function(req, res) {
-	if (req.body.pass == req.body.pass_confirm) {
+	if (req.body.pwd == req.body.pwdC) {
 		mongoose.connect('mongodb://localhost/unisafe', function(err) {
 			if (err) { throw err; }
 		});
@@ -83,7 +83,7 @@ app.post('/do_inscription', function(req, res) {
 				res.render('inscription.ejs', { erreur : 'Erreur : Un utilisateur existe déjà avec cet identifiant.' });
 			}
 			else {
-				var newUser = new userModel({ login : req.body.login, password : req.body.pass });
+				var newUser = new userModel({ login : req.body.login, password : req.body.pwd });
 				newUser.save(function (err) {
 					if (err) { throw err; }
 					mongoose.connection.close();
@@ -110,7 +110,7 @@ app.post('/do_connexion', function(req, res) {
 
 	var query = userModel.find(null);
 	query.where('login', req.body.login);
-	query.where('password', req.body.pass);
+	query.where('password', req.body.pwd);
 	query.exec(function (err, comms) {
 		if (err) { throw err; }
 		if (comms.length != 1) {
