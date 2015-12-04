@@ -23,9 +23,9 @@ var longi = -87.629798;
 var rayon = 2000;
 
 var liste = [
-	{lat:41.878114, longi:-87.629798, radius :15000, type: "radioactif"},
-	{lat:40.878114, longi:-87.629798, radius :15000, type: "radioactif"},
-	{lat:40.878114, longi:-84.629798, radius :35000, type: "ebola"},
+	{lat:41.878114, longi:-87.629798, radius :15000, type: "radioactif", nom:"test"},
+	{lat:40.878114, longi:-87.629798, radius :15000, type: "radioactif", nom:"unautre"},
+	{lat:40.878114, longi:-84.629798, radius :35000, type: "ebola", nom:"lol"},
 ];
 
 var sess;
@@ -33,28 +33,39 @@ var sess;
 /* Autres */
 
 app.get('/', function(req, res) {
-	res.render('index.ejs');
+	sess = req.session;
+	if (isConnected(sess))
+		res.render('index.ejs', { login : sess.login });
+	else
+		res.render('index.ejs');
 });
-
 
 /* Zones */
 
 app.get('/zone', function(req, res) {
-	res.render('zone.ejs', {liste: liste});
+	sess = req.session;
+	if (isConnected(sess))
+		res.render('zone.ejs', { login : sess.login, liste : liste });
+	else
+		res.render('zone.ejs', { liste: liste });
 });
 
 app.get('/ajout_zone', function(req, res) {
-	res.render('ajout_zone.ejs');
+	sess = req.session;
+	if (isConnected(sess))
+		res.render('ajout_zone.ejs', { login : sess.login });
+	else
+		res.redirect('/');
 });
 
 app.post('/ajout_zone', function(req, res) {
-	res.redirect('/ajout_zone');
+	res.render('ajout_zone.ejs');
 });
 
 /* Inscription */
 
 app.get('/inscription', function(req, res) {
-	res.render('inscription.ejs', { erreur : '' });
+	res.render('inscription.ejs', { erreur : ' ' });
 });
 
 app.post('/do_inscription', function(req, res) {
@@ -115,6 +126,19 @@ app.post('/do_connexion', function(req, res) {
 	});
 });
 
+app.get('/deconnexion',function(req,res){
+	sess = req.session;
+	sess.login = null;
+	sess.destroy(function(err) {
+		if(err) {
+			console.log(err);
+		}
+		else {
+			res.redirect('/');
+		}
+	});
+});
+
 app.use(express.static('assets'));
 
 app.use(function(req, res, next){
@@ -122,7 +146,9 @@ app.use(function(req, res, next){
     res.send(404, 'Page introuvable.');
 });
 
-function isConnected() {
+// sess correspond a l'objet session recupere avec req.session
+
+function isConnected(sess) {
 	if (sess.login)
 		return true;
 	else
