@@ -30,23 +30,17 @@ var liste = [
 
 var sess;
 
+/* Autres */
+
 app.get('/', function(req, res) {
 	res.render('index.ejs');
 });
 
-app.get('/map', function(req, res) {
-	res.render('map.ejs', {liste: liste});
-});
 
-app.get('/connexion', function(req, res) {
-	res.render('connexion.ejs', { erreur : '' });
-});
-app.post('/connexion', function(req, res) {
+/* Zones */
 
-});
-
-app.get('/inscription', function(req, res) {
-	res.render('inscription.ejs', { erreur : '' });
+app.get('/zone', function(req, res) {
+	res.render('zone.ejs', {liste: liste});
 });
 
 app.get('/ajout_zone', function(req, res) {
@@ -55,6 +49,12 @@ app.get('/ajout_zone', function(req, res) {
 
 app.post('/ajout_zone', function(req, res) {
 	res.redirect('/ajout_zone');
+});
+
+/* Inscription */
+
+app.get('/inscription', function(req, res) {
+	res.render('inscription.ejs', { erreur : '' });
 });
 
 app.post('/do_inscription', function(req, res) {
@@ -84,6 +84,12 @@ app.post('/do_inscription', function(req, res) {
 	else {
 		res.render('inscription.ejs', { erreur : 'Erreur : Les mots de passe ne correspondent pas.' });
 	}
+});
+
+/* Connexion */
+
+app.get('/connexion', function(req, res) {
+	res.render('connexion.ejs', { erreur : ' ' });
 });
 
 app.post('/do_connexion', function(req, res) {
