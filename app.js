@@ -15,9 +15,9 @@ var lat = 41.878114;
 var longi = -87.629798;
 var rayon = 2000;
 var liste = [
-		{lat:41.878114, longi:-87.629798, rayon :2000},
-		{lat:40.878114, longi:-87.629798, rayon :2000},
-		{lat:40.878114, longi:-84.629798, rayon :2000},
+		{lat:41.878114, longi:-87.629798, radius :2000},
+		{lat:40.878114, longi:-87.629798, radius :2000},
+		{lat:40.878114, longi:-84.629798, radius :2000},
 	];
 
 app.get('/', function(req, res) {

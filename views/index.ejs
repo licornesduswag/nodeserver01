@@ -1,10 +1,10 @@
 <% include header.ejs %>
 				<h2> </h2>
 				<div class="jumbotron text-center" >
-					<h1>UniSafe</h1> 
-					<p>Les licornes qui veillent sur vous jour et nuit</p> 
+					<h1>UniSafe</h1>
+					<p>Les licornes qui veillent sur vous jour et nuit</p>
 				</div>
-			  
+
 				<h2>Nos plus belles citations</h2>
 				<div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
 				<!-- Indicators -->
@@ -37,19 +37,18 @@
 					<span class="sr-only">Next</span>
 				</a>
 			</div>
-			
-			
+
+
 			<!-- Set height and width with CSS -->
 			<div id="googleMap" style="height:400px;width:100%;"></div>
 
 			<!-- Add Google Maps -->
 			<script src="http://maps.googleapis.com/maps/api/js"></script>
-			
+
 			<script>
-			
-			var myCenter = new google.maps.LatLng(<%= lat%>, <%= longi%>);
-	
-				
+
+			var myCenter = new google.maps.LatLng(48.0, -81.0);
+
 			function initialize() {
 				var mapProp = {
 				center:myCenter,
@@ -58,19 +57,18 @@
 				draggable:true,
 				mapTypeId:google.maps.MapTypeId.ROADMAP
 				};
-			
-				var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-				
-				<%
-					forEach val in liste
-					var marker = new google.maps.Marker({
-						position:{liste.lat, liste.longi, liste.radius}
-					});		
-				
-					marker.setMap(map);
-				%>
 
-				
+				var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+				<% for(var i=0; i<liste.length; i++) { %>
+					var marker<%=i%> = new google.maps.Marker({
+						position:{lat: <%= liste[i].lat %>, lng: <%= liste[i].longi %>}
+					});
+
+					marker<%=i%>.setMap(map);
+				<% } %>
+
+
 				var myCity = new google.maps.Circle({
 					center: myCenter,
 					radius:2000,
@@ -80,11 +78,11 @@
 					fillColor:'#FF00FF',
 					fillOpacity:0.35,
 					map: map
-				}); 
+				});
 
 				myCity.setMap(map);
 			}
 			google.maps.event.addDomListener(window, 'load', initialize);
-			
+
 			</script>
 <% include footer.ejs %>
