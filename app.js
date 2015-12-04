@@ -1,6 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 var app = express();
 
 app.use( bodyParser.json() );
@@ -8,20 +9,24 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }));
 
+app.use(session({secret: 'uniSafeSecret'}));
+
 var lat = 41.878114;
 var longi = -87.629798;
 var rayon = 2000;
-<!--var liste = [
-		{lat:41.878114, longi:-87.629798, rayon :2000},
-		{lat:40.878114, longi:-87.629798, rayon :2000},
-		{lat:40.878114, longi:-84.629798, rayon :2000},
-	];-->
+
+var liste = [
+		{lat:41.878114, longi:-87.629798, radius :2000},
+		{lat:40.878114, longi:-87.629798, radius :2000},
+		{lat:40.878114, longi:-84.629798, radius :2000},
+	];
 
 app.get('/', function(req, res) {
 	res.render('index.ejs', {lat:41.878114, longi:-87.629798, rayon :2000});
 });
 
 app.get('/connexion', function(req, res) {
+	var sess = req.session;
 	res.render('connexion.ejs');
 });
 
