@@ -21,7 +21,11 @@ var liste = [
 	];
 
 app.get('/', function(req, res) {
-	res.render('index.ejs', {liste: liste});
+	res.render('index.ejs');
+});
+
+app.get('/map', function(req, res) {
+	res.render('map.ejs', {liste: liste});
 });
 
 app.get('/connexion', function(req, res) {
