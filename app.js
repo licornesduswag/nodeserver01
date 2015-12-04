@@ -191,7 +191,11 @@ app.get('/test_aws', function(req, res) {
 });
 
 app.get('/stats', function(req, res) {
-	res.render('stats.ejs');
+	sess = req.session;
+	if (isConnected(sess))
+		res.render('stats.ejs', { login : sess.login });
+	else
+		res.render('stats.ejs');
 });
 
 /* Le reste */
