@@ -23,9 +23,9 @@ var userModel = mongoose.model('users', userSchema);
 
 var zoneSchema = new mongoose.Schema({
 	nom : String,
-	lat : Double,
-	lng : Double,
-	rayon : Double,
+	lat : Number,
+	lng : Number,
+	rayon : Number,
 	type : String
 });
 
