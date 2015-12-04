@@ -2,7 +2,7 @@
 
 <h1>Ajouter une zone de danger <%= login %></h1>
 
-<form method="post">
+<!--<form method="post">
 	Nom de zone :<br />
 	<input type="text" name="nom" /><br />
 
@@ -22,6 +22,47 @@
 	<br />
 
 	<input type="submit" value="Ajouter la zone" />
+</form>-->
+
+<div  class="container">
+<form class="form-horizontal" role="form" method="post">
+					
+	<div class="form-group">
+		<label class="control-label">Nom de zone : </label>
+		<div> 
+			<input type="text" class="form-control" name="nom" >
+		</div>
+	</div>
+	</br>
+	
+	<div class="form-group">
+		<label  class="control-label" >Latitude : </label>
+		<div> 
+			<input type="number" class="form-control" step="any" name="lat" >
+		</div>
+	</div>
+	</br>
+	
+	<div class="form-group">
+		<label  class="control-label "  >Longitude : </label>
+		<div> 
+			<input class=" form-control"type="number"  step="any" >
+		</div>
+	</div>
+	</br>
+	
+	<div class="form-group">
+		<label>Type de zone :</label>
+		<select class="form-control" >
+			<option value="Radioactif">Radioactif</option>
+			<option value="Ebola">Ebola</option>
+		</select>
+	</div>
+	</br>
+	</br>
+	
+	<button type="submit" class="btn btn-default">Ajouter la zone</button>
 </form>
+</div>
 
 <% include footer.ejs %>
