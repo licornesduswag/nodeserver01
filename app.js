@@ -1,12 +1,15 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 var app = express();
 
 app.use( bodyParser.json() );
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
+
+app.use(session({secret: 'uniSafeSecret'}));
 
 var lat = 41.878114;
 var longi = -87.629798;
@@ -21,6 +24,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/connexion', function(req, res) {
+	var sess = req.session;
 	res.render('connexion.ejs');
 });
 
