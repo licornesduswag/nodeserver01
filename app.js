@@ -59,22 +59,85 @@ app.get('/zone', function(req, res) {
 });
 
 function renderZone(res, center) {
+	mongoose.connect('mongodb://localhost/unisafe', function(err) {
+		if (err) { throw err; }
+	});
+	
+	console.log('taille liste avant ' + liste.length);
+	liste = [];
+	var query = zoneModel.find(null);
+	query.exec(function (err, comms) {
+		console.log('yolo');
+		if (err) { throw err; }
+		console.log('taille' + comms.length);
+		for(var i =0; i < comms.length; i++)
+		{
+			var com = comms[i];
+			liste.push({lat : com.lat, longi : com.lng, radius : com.rayon, type : com.type, nom : com.nom });
+			console.log(com.lat + 'pp');
+		}
+		
+		console.log('taille liste' + liste.length);
 
-	if(center == null)
-		res.render('zone.ejs', {liste: liste});
-	else
-		res.render('zone.ejs', {liste: liste, centerLat : center.centerLat, centerLng : center.centerLng});
+		if(center == null)
+		{
+			res.render('zone.ejs', {liste: liste, centerLat : liste[0].lat, centerLng : liste[0].longi });
+		}
+		
+		mongoose.connection.close();
+	});
+	
+		if(center != null)
+		{
+			res.render('zone.ejs', {liste: liste, centerLat : center.centerLat, centerLng : center.centerLng});
+		}
+
+	
 		
 }
 
 app.get('/ajout_zone', function(req, res) {
-	res.render('ajout_zone.ejs');
+	res.render('ajout_zone.ejs', { erreur : ' ' });
 });
 
-
-
 app.post('/ajout_zone', function(req, res) {
-	res.redirect('/ajout_zone');
+	mongoose.connect('mongodb://localhost/unisafe', function(err) {
+		if (err) { throw err; }
+	});
+	
+	var nom = req.body.nom;
+	var lat = req.body.lat;
+	var lng = req.body.lng;
+	var rayon = req.body.rayon;
+	var type = req.body.type;
+	
+			
+	if(!nom || !lat || !lng || !rayon || !type)
+	{
+		res.render('ajout_zone.ejs', { erreur : 'Erreur : Veuillez remplir tous les champs.' });
+	}
+			
+
+	var query = zoneModel.find(null);
+	query.where('nom', req.body.nom);
+	query.exec(function (err, comms) {
+		if (err) { throw err; }
+		if (comms.length > 0) {
+			mongoose.connection.close();
+			res.render('ajout_zone.ejs', { erreur : 'Erreur : Une zone avec ce nom existe déjà' });
+		}
+		else {
+			
+			var newZone = new zoneModel({ nom : nom, lat : lat, lng : lng, rayon : rayon, type : type });
+			
+			
+			newZone.save(function (err) {
+				if (err) { throw err; }
+				mongoose.connection.close();
+				renderZone(res, {centerLat : lat, centerLng : lng});
+			});
+		}
+	});
 });
 
 /* Inscription */
@@ -155,35 +218,7 @@ function isConnected() {
 		return false;
 }
 
-app.post('/ajout_zone', function(req, res) {
-	mongoose.connect('mongodb://localhost/unisafe', function(err) {
-		if (err) { throw err; }
-	});
 
-	var query = zoneModel.find(null);
-	query.where('nom', req.body.nom);
-	query.exec(function (err, comms) {
-		if (err) { throw err; }
-		if (comms.length > 0) {
-			mongoose.connection.close();
-			res.render('ajout_zone.ejs', { erreur : 'Erreur : Une zone avec ce nom existe déjà' });
-		}
-		else {
-			var nom = req.body.nom;
-			var lat = req.body.lat;
-			var lng = req.body.lng;
-			var rayon = req.body.rayon;
-			var type = req.body.type;
-			
-			var newZone = new zoneModel({ nom : nom, lat : lat, lng : lng, rayon : rayon, type : type });
-				newZone.save(function (err) {
-					if (err) { throw err; }
-					mongoose.connection.close();
-					renderZone(res, {centerLat : lat, centerLng : lng});
-				});
-		}
-	});
-});
 
 
 app.listen(8080);

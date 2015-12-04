@@ -14,10 +14,10 @@
 
 <script>
 
-var myCenter = new google.maps.LatLng(centerLat, centerLng);
+var myCenter = new google.maps.LatLng( <%= centerLat %>, <%= centerLng %>);
 
 function initialize() {
-	var myCenter = new google.maps.LatLng(<%= liste[0].lat %>, <%= liste[0].longi %>);
+	var myCenter = new google.maps.LatLng(<%= centerLat %>, <%= centerLng %>);
 
 	var mapProp = {
 	center: myCenter,
