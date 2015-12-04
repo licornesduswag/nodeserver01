@@ -36,7 +36,6 @@ app.get('/map', function(req, res) {
 });
 
 app.get('/connexion', function(req, res) {
-	var sess = req.session;
 	res.render('connexion.ejs');
 });
 
@@ -52,10 +51,9 @@ app.post('/do_inscription', function(req, res) {
 
 		var query = userModel.find(null);
 		query.where('login', req.body.login);
-		query.limit(3);
 		query.exec(function (err, comms) {
 			if (err) { throw err; }
-			if (comms.length > 1) {
+			if (comms.length > 0) {
 				mongoose.connection.close();
 				res.render('inscription.ejs', { erreur : 'Erreur : Un utilisateur existe déjà avec ce login.' });
 			}
@@ -73,7 +71,6 @@ app.post('/do_inscription', function(req, res) {
 		res.render('inscription.ejs', { erreur : 'Erreur : Les mots de passe ne correspondent pas.' });
 	}
 });
-
 
 app.use(express.static('assets'));
 
