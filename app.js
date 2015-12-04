@@ -22,10 +22,12 @@ var lat = 41.878114;
 var longi = -87.629798;
 var rayon = 2000;
 var liste = [
-		{lat:41.878114, longi:-87.629798, radius :2000},
-		{lat:40.878114, longi:-87.629798, radius :2000},
-		{lat:40.878114, longi:-84.629798, radius :2000},
-	];
+	{lat:41.878114, longi:-87.629798, radius :2000},
+	{lat:40.878114, longi:-87.629798, radius :2000},
+	{lat:40.878114, longi:-84.629798, radius :2000},
+];
+
+var sess;
 
 app.get('/', function(req, res) {
 	res.render('index.ejs');
@@ -36,7 +38,7 @@ app.get('/map', function(req, res) {
 });
 
 app.get('/connexion', function(req, res) {
-	res.render('connexion.ejs');
+	res.render('connexion.ejs', { erreur : '' });
 });
 
 app.get('/inscription', function(req, res) {
@@ -55,7 +57,7 @@ app.post('/do_inscription', function(req, res) {
 			if (err) { throw err; }
 			if (comms.length > 0) {
 				mongoose.connection.close();
-				res.render('inscription.ejs', { erreur : 'Erreur : Un utilisateur existe déjà avec ce login.' });
+				res.render('inscription.ejs', { erreur : 'Erreur : Un utilisateur existe déjà avec cet identifiant.' });
 			}
 			else {
 				var newUser = new userModel({ login : req.body.login, password : req.body.pass });
@@ -72,11 +74,41 @@ app.post('/do_inscription', function(req, res) {
 	}
 });
 
+app.post('/do_connexion', function(req, res) {
+	mongoose.connect('mongodb://localhost/unisafe', function(err) {
+		if (err) { throw err; }
+	});
+
+	var query = userModel.find(null);
+	query.where('login', req.body.login);
+	query.where('password', req.body.pass);
+	query.exec(function (err, comms) {
+		if (err) { throw err; }
+		if (comms.length != 1) {
+			mongoose.connection.close();
+			res.render('connexion.ejs', { erreur : 'Erreur : Identifiant ou mot de passe incorrect.' });
+		}
+		else {
+			sess = req.session;
+			sess.login=req.body.login;
+			mongoose.connection.close();
+			res.redirect('/');
+		}
+	});
+});
+
 app.use(express.static('assets'));
 
 app.use(function(req, res, next){
     res.setHeader('Content-Type', 'text/plain');
     res.send(404, 'Page introuvable.');
 });
+
+function isConnected() {
+	if (sess.login)
+		return true;
+	else
+		return false;
+}
 
 app.listen(8080);
