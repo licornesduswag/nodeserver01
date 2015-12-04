@@ -13,7 +13,7 @@ window.RTCSessionDescription = window.RTCSessionDescription || window.mozRTCSess
 function pageReady(id) {
     localVideo = document.getElementById('localVideo');
     remoteVideo = document.getElementById('remoteVideo');
-    var url = 'ws://192.128.43.160:' + id;
+    var url = 'ws://nuitinfo.microjoe.org:' + id;
     serverConnection = new WebSocket(url);
     serverConnection.onmessage = gotMessageFromServer;
 
