@@ -43,6 +43,10 @@ app.get('/inscription', function(req, res) {
 	res.render('inscription.ejs', { erreur : '' });
 });
 
+app.get('/ajout_zone', function(req, res) {
+	res.render('ajout_zone.ejs');
+});
+
 app.post('/do_inscription', function(req, res) {
 	if (req.body.pass == req.body.pass_confirm) {
 		mongoose.connect('mongodb://localhost/unisafe', function(err) {
