@@ -89,7 +89,7 @@ app.post('/do_inscription', function(req, res) {
 /* Connexion */
 
 app.get('/connexion', function(req, res) {
-	res.render('connexion.ejs', { erreur : '' });
+	res.render('connexion.ejs', { erreur : ' ' });
 });
 
 app.post('/do_connexion', function(req, res) {
