@@ -43,6 +43,10 @@ app.get('/map', function(req, res) {
 
 /* Zones */
 
+app.get('/zone', function(req, res) {
+	res.render('zone.ejs');
+});
+
 app.get('/ajout_zone', function(req, res) {
 	res.render('ajout_zone.ejs');
 });
