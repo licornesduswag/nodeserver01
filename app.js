@@ -60,6 +60,9 @@ app.post('/do_inscription', function(req, res) {
 	}
 });
 
+
+app.use(express.static('assets'));
+
 app.use(function(req, res, next){
     res.setHeader('Content-Type', 'text/plain');
     res.send(404, 'Page introuvable.');
