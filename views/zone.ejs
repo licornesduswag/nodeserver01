@@ -1,10 +1,13 @@
 <% include header.ejs %>
 
+<% if (typeof login !== 'undefined') { %>
 <h1>Gestion des zones</h1>
 
 <a href="/ajout_zone" class="btn btn-default">Ajouter une zone</a>
-
-<h2>Carte des zones</h2>
+<% } %>
+<div class="page-header">
+	<h2>Carte des zones</h2>
+</div>
 
 <!-- Set height and width with CSS -->
 <div id="googleMap" style="height:700px;width:100%;"></div>

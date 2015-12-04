@@ -1,0 +1,30 @@
+<% include header.ejs %>
+
+<h1>Statistiques</h1>
+
+<h2>Surfaces occupées par les différents types de zones</h2>
+
+<p>
+	Voici le graphique montrant la surface occupée par les différents types de
+	zones recensées dans le système.
+</p>
+
+<div class="center">
+<canvas id="myChart" width="400" height="400"></canvas>
+</div>
+
+<script>
+var req = new XMLHttpRequest();
+req.open('GET', '/test_aws', false);
+req.send(null);
+if(req.status == 200) {
+	//alert(req.responseText);
+
+	var data = JSON.parse(req.responseText);
+
+	var ctx = document.getElementById("myChart").getContext("2d");
+	var myBarChart = new Chart(ctx).Bar(data);
+}
+</script>
+
+<% include footer.ejs %>
