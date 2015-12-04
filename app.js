@@ -26,7 +26,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/connexion', function(req, res) {
-	var sess = req.session;
+	//var sess = req.session;
 	res.render('connexion.ejs');
 });
 
