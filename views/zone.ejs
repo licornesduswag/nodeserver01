@@ -32,7 +32,9 @@ function initialize() {
 
 	<% for(var i=0; i<liste.length; i++) { %>
 		var marker<%=i%> = new google.maps.Marker({
-			position:{lat: <%= liste[i].lat %>, lng: <%= liste[i].longi %>}
+			position:{lat: <%= liste[i].lat %>, lng: <%= liste[i].longi %>},
+			label: "<%= i %>",
+			title: "<%= liste[i].nom %>"
 		});
 
 		marker<%=i%>.setMap(map);
