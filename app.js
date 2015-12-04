@@ -40,6 +40,9 @@ app.get('/map', function(req, res) {
 app.get('/connexion', function(req, res) {
 	res.render('connexion.ejs', { erreur : '' });
 });
+app.post('/connexion', function(req, res) {
+
+});
 
 app.get('/inscription', function(req, res) {
 	res.render('inscription.ejs', { erreur : '' });
@@ -47,6 +50,10 @@ app.get('/inscription', function(req, res) {
 
 app.get('/ajout_zone', function(req, res) {
 	res.render('ajout_zone.ejs');
+});
+
+app.post('/ajout_zone', function(req, res) {
+	res.redirect('/ajout_zone');
 });
 
 app.post('/do_inscription', function(req, res) {
