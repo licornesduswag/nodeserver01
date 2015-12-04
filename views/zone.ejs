@@ -30,7 +30,9 @@ function initialize() {
 
 	<% for(var i=0; i<liste.length; i++) { %>
 		var marker<%=i%> = new google.maps.Marker({
-			position:{lat: <%= liste[i].lat %>, lng: <%= liste[i].longi %>}
+			position:{lat: <%= liste[i].lat %>, lng: <%= liste[i].longi %>},
+			label: "<%= i %>",
+			title: "<%= liste[i].nom %>"
 		});
 
 		marker<%=i%>.setMap(map);
@@ -39,10 +41,18 @@ function initialize() {
 		var myCity<%=i%> = new google.maps.Circle({
 			center: myCenter<%=i%>,
 			radius: <%= liste[i].radius %>,
-			strokeColor:'#FF0000',
+			<% if (liste[i].type == "radioactif") { %>
+				fillColor:'#00FF00',
+			<% } else { %>
+				strokeColor:'#FF0000',
+			<% } %>
 			strokeOpacity:0.8,
 			strokeWeight:2,
-			fillColor:'#FF00FF',
+			<% if (liste[i].type == "radioactif") { %>
+				fillColor:'#00FF00',
+			<% } else { %>
+				fillColor:'#FF00FF',
+			<% } %>
 			fillOpacity:0.35,
 			map: map
 		});
