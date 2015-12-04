@@ -2,6 +2,8 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var request = require('request');
+
 var app = express();
 
 app.use( bodyParser.json() );
@@ -25,8 +27,13 @@ var rayon = 2000;
 var liste = [
 	{lat:41.878114, longi:-87.629798, radius :15000, type: "radioactif", nom:"test"},
 	{lat:40.878114, longi:-87.629798, radius :15000, type: "radioactif", nom:"unautre"},
-	{lat:40.878114, longi:-84.629798, radius :35000, type: "ebola", nom:"lol"},
+	{lat:40.878114, longi:-84.629798, radius :10000, type: "ebola", nom:"lol"},
+	{lat:40.878114, longi:-84.629708, radius :15000, type: "test", nom:"lol"},
 ];
+
+var awsobj = {
+	zones: liste
+};
 
 var sess;
 
@@ -151,6 +158,44 @@ app.get('/video/:salon', function(req, res) {
 	res.render('salonVideo.ejs', {salon : req.params.salon});
 });
 
+/* Test AWS */
+
+/* Cette URL est en fait un genre de proxy vers l’URL d’Amazon.
+ *
+ * Elle va interroger la base MongoDB et envoyer l’ensemble des zones au script
+ * de traitement, qui va ensuite calculer les stats sur les zones et les
+ * retourner au format JSON.
+ *
+ * En appelant cette URL avec Javascript en XMLHTTPRequest, on peut donc
+ * récupérer les données statistiques calculées sur les serveurs d’Amazon et
+ * ensuite afficher des graphiques avec.
+ *
+ * On déploie donc un micro-service de statistiques avec AWS Lambda sans se
+ * soucier de la charge serveur que peut entrainer le calcul de statistiques.
+ *
+ * De plus, ce genre de proxy nous permet de cacher notre vraie URL Amazon.
+ *
+ */
+
+var secret = require('./secret');
+
+app.get('/test_aws', function(req, res) {
+	request({
+		url: secret.getSecretURL(),
+		method: "POST",
+		json: true,
+		body: awsobj
+	}, function(error, response, body) {
+		res.send(body);
+	});
+});
+
+app.get('/stats', function(req, res) {
+	res.render('stats.ejs');
+});
+
+/* Le reste */
+
 app.use(express.static('assets'));
 
 app.use(function(req, res, next){
@@ -167,4 +212,4 @@ function isConnected(sess) {
 		return false;
 }
 
-app.listen(8080);
+app.listen(8081);
