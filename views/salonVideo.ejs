@@ -95,7 +95,7 @@ function gotMessageFromServer(message) {
 
 			<input type="button" id="start" onclick="start(true)" value="Démarrer"></input>
 			<script type="text/javascript">
-			    pageReady(10000);
+			    pageReady(10000 + <%= salon %> - 1);
 			</script>
 		</div>
 	</div>
