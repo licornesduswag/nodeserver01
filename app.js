@@ -66,11 +66,11 @@ app.get('/', function(req, res) {
 
 app.get('/zone', function(req, res) {
 
-	renderZone(res, null);
+	renderZone(req, res, null);
 
 });
 
-function renderZone(res, center) {
+function renderZone(req, res, center) {
 	
 	
 	mongoose.connect('mongodb://localhost/unisafe', function(err) {
@@ -96,7 +96,12 @@ function renderZone(res, center) {
 		if(center == null)
 		{
 			sess = req.session;
-			if (isConnected(sess))
+			
+			if(liste.length == 0 && isConnected(sess))
+				res.render('ajout_zone.ejs', { login : sess.login , erreur : ' ' });
+			else if(liste.length == 0)
+				res.render('zone.ejs', {liste: liste, centerLat : 43, centerLng : 43 });
+			else if (isConnected(sess))
 				res.render('zone.ejs', {login : sess.login, liste: liste, centerLat : liste[0].lat, centerLng : liste[0].longi });
 			else
 				res.render('zone.ejs', {liste: liste, centerLat : liste[0].lat, centerLng : liste[0].longi });
@@ -119,8 +124,10 @@ function renderZone(res, center) {
 }
 
 app.get('/ajout_zone', function(req, res) {
-
-	res.render('ajout_zone.ejs', { erreur : ' ' });
+	sess = req.session;
+	if (isConnected(sess))
+		res.render('ajout_zone.ejs', { login : sess.login , erreur : ' ' });
+	else res.render('/');
 });
 
 
@@ -146,7 +153,7 @@ app.post('/ajout_zone', function(req, res) {
 			
 	if(!nom || !lat || !lng || !rayon || !type)
 	{
-		res.render('ajout_zone.ejs', { erreur : 'Erreur : Veuillez remplir tous les champs.' });
+		res.render('ajout_zone.ejs', { login : sess.login ,  erreur : 'Erreur : Veuillez remplir tous les champs.' });
 	}
 			
 
@@ -156,7 +163,7 @@ app.post('/ajout_zone', function(req, res) {
 		if (err) { throw err; }
 		if (comms.length > 0) {
 			mongoose.connection.close();
-			res.render('ajout_zone.ejs', { erreur : 'Erreur : Une zone avec ce nom existe déjà' });
+			res.render('ajout_zone.ejs', { login : sess.login ,  erreur : 'Erreur : Une zone avec ce nom existe déjà' });
 		}
 		else {
 			
@@ -166,7 +173,7 @@ app.post('/ajout_zone', function(req, res) {
 			newZone.save(function (err) {
 				if (err) { throw err; }
 				mongoose.connection.close();
-				renderZone(res, {centerLat : lat, centerLng : lng});
+				renderZone(req, res, {centerLat : lat, centerLng : lng});
 			});
 		}
 	});
