@@ -11,6 +11,13 @@ app.use(bodyParser.urlencoded({
 
 app.use(session({secret: 'uniSafeSecret'}));
 
+var userSchema = new mongoose.Schema({
+	login : String,
+	password : String
+});
+
+var userModel = mongoose.model('users', userSchema);
+
 var lat = 41.878114;
 var longi = -87.629798;
 var rayon = 2000;
@@ -39,21 +46,24 @@ app.post('/do_inscription', function(req, res) {
 			if (err) { throw err; }
 		});
 
-		var userSchema = new mongoose.Schema({
-			login : String,
-			password : String
-		});
-
-		var userModel = mongoose.model('users', userSchema);
-
-		var newUser = new userModel({ login : req.body.login, password : req.body.pass });
-
-		newUser.save(function (err) {
+		var query = userModel.find(null);
+		query.where('login', req.body.login);
+		query.limit(3);
+		query.exec(function (err, comms) {
 			if (err) { throw err; }
-			mongoose.connection.close();
+			if (comms.length > 1) {
+				mongoose.connection.close();
+				res.render('inscription.ejs', { erreur : 'Erreur : Un utilisateur existe déjà avec ce login.' });
+			}
+			else {
+				var newUser = new userModel({ login : req.body.login, password : req.body.pass });
+				newUser.save(function (err) {
+					if (err) { throw err; }
+					mongoose.connection.close();
+					res.redirect('/');
+				});
+			}
 		});
-
-		res.render('index.ejs');
 	}
 	else {
 		res.render('inscription.ejs', { erreur : 'Erreur : Les mots de passe ne correspondent pas.' });
