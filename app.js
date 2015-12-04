@@ -21,11 +21,11 @@ var liste = [
 	];
 
 app.get('/', function(req, res) {
-	res.render('index.ejs', {liste : liste});
+	res.render('index.ejs', {lat:41.878114, longi:-87.629798, rayon :2000});
 });
 
 app.get('/connexion', function(req, res) {
-	var sess = req.session;
+	//var sess = req.session;
 	res.render('connexion.ejs');
 });
 
