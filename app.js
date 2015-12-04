@@ -40,22 +40,28 @@ app.get('/', function(req, res) {
 		res.render('index.ejs');
 });
 
-app.get('/map', function(req, res) {
-	res.render('map.ejs', {liste: liste});
-});
-
 /* Zones */
 
 app.get('/zone', function(req, res) {
-	res.render('zone.ejs', {liste: liste});
+	sess = req.session;
+	if (isConnected)
+		res.render('zone.ejs', { login : sess.login, liste : liste });
+	else
+		res.render('zone.ejs', { liste: liste });
 });
 
 app.get('/ajout_zone', function(req, res) {
-	res.render('ajout_zone.ejs');
+	if (isConnected)
+		res.render('ajout_zone.ejs', { login : sess.login });
+	else
+		res.render('ajout_zone.ejs');
 });
 
 app.post('/ajout_zone', function(req, res) {
-	res.redirect('/ajout_zone');
+	if (isConnected)
+		res.render('ajout_zone.ejs', { login : sess.login });
+	else
+		res.redirect('/ajout_zone');
 });
 
 /* Inscription */
