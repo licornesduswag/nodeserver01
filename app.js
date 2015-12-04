@@ -1,15 +1,23 @@
 var express = require('express');
 var mongoose = require('mongoose');
-var app = express();
 var bodyParser = require('body-parser');
+var app = express();
 
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+app.use( bodyParser.json() );
+app.use(bodyParser.urlencoded({
 	extended: true
 }));
 
+var lat = 41.878114;
+var longi = -87.629798;
+var rayon = 2000;
+
 app.get('/', function(req, res) {
-	res.render('index.ejs');
+	res.render('index.ejs', [
+		{lat:41.878114, longi:-87.629798, rayon :2000},
+		{lat:40.878114, longi:-87.629798, rayon :2000},
+		{lat:40.878114, longi:-84.629798, rayon :2000},
+	]);
 });
 
 app.get('/connexion', function(req, res) {

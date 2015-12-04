@@ -1,10 +1,11 @@
 <% include header.ejs %>
+
 				<div class="jumbotron text-center">
 					<h1>UniSafe</h1> 
 					<p>Les licornes qui veillent sur vous jour et nuit</p> 
 				</div>
 			  
-				<h2>What our customers say</h2>
+				<h2>Nos plus belles citations</h2>
 				<div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
 				<!-- Indicators -->
 				<ol class="carousel-indicators">
@@ -14,17 +15,17 @@
 				</ol>
 
 				<!-- Wrapper for slides -->
-				<div class="carousel-inner" role="listbox">
-					<div class="item active">
-						<h4>"This company is the best. I am so happy with the result!"<br><span style="font-style:normal;">Michael Roe, Vice President, Comment Box</span></h4>
-					</div>
-					<div class="item">
-						<h4>"One word... WOW!!"<br><span style="font-style:normal;">John Doe, Salesman, Rep Inc</span></h4>
-					</div>
-					<div class="item">
-						<h4>"Could I... BE any more happy with this company?"<br><span style="font-style:normal;">Chandler Bing, Actor, FriendsAlot</span></h4>
-					</div>
-				</div>
+		<div class="carousel-inner" role="listbox">
+			<div class="item active">
+				<h4>"Romain Porte est vraiment un excellent élément, j'adore travailler avec lui!"<br><span style="font-style:normal;">Mehdi Ben Iche, Vice President, Comment Box</span></h4>
+			</div>
+			<div class="item">
+				<h4>"So much WOW!! Doge !"<br><span style="font-style:normal;">Kelian Duval, Salesman, Rep Inc</span></h4>
+			</div>
+			<div class="item">
+				<h4>"Je n'aime pas la façon dont se déroulent les choses. Cela dit, mes collègues sont brillants."<br><span style="font-style:normal;">Christopher Bélanger, Actor, FriendsAlot</span></h4>
+			</div>
+		</div>
 
 				<!-- Left and right controls -->
 				<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
@@ -46,8 +47,7 @@
 			
 			<script>
 			
-			var myCenter = new google.maps.LatLng(41.878114, -87.629798);
-			var myShit = new google.maps.LatLng(42.0, -88.0);
+			var myCenter = new google.maps.LatLng(<%= lat%>, <%= longi%>);
 
 			function initialize() {
 				var mapProp = {
@@ -60,15 +60,15 @@
 
 				var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
 
-				/*var marker = new google.maps.Marker({
+				var marker = new google.maps.Marker({
 					position:myCenter,
 				});
 				
-				marker.setMap(map);*/
+				marker.setMap(map);
 				
 				var myCity = new google.maps.Circle({
-					center: myShit,
-					radius:20000,
+					center: myCenter,
+					radius:2000,
 					strokeColor:'#FF0000',
 					strokeOpacity:0.8,
 					strokeWeight:2,
