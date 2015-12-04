@@ -11,14 +11,14 @@ app.use(bodyParser.urlencoded({
 var lat = 41.878114;
 var longi = -87.629798;
 var rayon = 2000;
-var liste = [
+<!--var liste = [
 		{lat:41.878114, longi:-87.629798, rayon :2000},
 		{lat:40.878114, longi:-87.629798, rayon :2000},
 		{lat:40.878114, longi:-84.629798, rayon :2000},
-	];
+	];-->
 
 app.get('/', function(req, res) {
-	res.render('index.ejs', {liste : liste});
+	res.render('index.ejs', {lat:41.878114, longi:-87.629798, rayon :2000});
 });
 
 app.get('/connexion', function(req, res) {
